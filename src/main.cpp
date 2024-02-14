@@ -1,6 +1,6 @@
 #include <Arduino.h>
 
-const int pin = 1;
+const int pin = PIN_PD1;
 
 void setup() {
   pinMode(pin, OUTPUT);
@@ -8,7 +8,7 @@ void setup() {
 
 void loop() {
   digitalWrite(pin, HIGH);
-  delay(500);
+  delay(2000);
   digitalWrite(pin, LOW);
-  delay(1000);
+  delay(2000);
 }
