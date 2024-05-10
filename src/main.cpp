@@ -20,13 +20,12 @@ enum MCP3465 {
 
 };
 
-//SPI communication settings 
-const SPISettings SPI_SETTINGS = SPISettings(20e6, MSBFIRST, SPI_MODE0); 
+// SPI communication settings
+const SPISettings SPI_SETTINGS = SPISettings(20e6, MSBFIRST, SPI_MODE0);
 
 const int CS = PIN_PB0;
 
-
-//Read registers 
+// Read registers
 uint32_t readRegStat(MCP3465 reg, int num_bytes) {
   uint8_t command = 0;
   const int addr = 1;
@@ -38,63 +37,55 @@ uint32_t readRegStat(MCP3465 reg, int num_bytes) {
   SPI.beginTransaction(SPI_SETTINGS);
   digitalWrite(CS, LOW);
 
-  //Send read command 
+  // Send read command
   SPI.transfer(command);
-  
-  //Get data 
+
+  // Get data
   uint32_t data = 0;
   for (int i = 0; i < num_bytes; i++) {
-
-    data = data << 8; 
+    data = data << 8;
     data += SPI.transfer(0);
-
-  }  
+  }
 
   digitalWrite(CS, HIGH);
   SPI.endTransaction();
 
-  return data; 
+  return data;
 }
 
-//Write to registers 
-void writeReg(MCP3465 reg, uint32_t data, int num_bytes){
+// Write to registers
+void writeReg(MCP3465 reg, uint32_t data, int num_bytes) {
   uint8_t command = 0;
   const int addr = 1;
-  int send_data = 0; 
+  int send_data = 0;
 
   command = (addr << 6) + (reg << 2) + 0b10;
 
   SPI.beginTransaction(SPI_SETTINGS);
   digitalWrite(CS, LOW);
 
-  //Send write command 
+  // Send write command
   SPI.transfer(command);
 
-  //send data
-  for (int i = num_bytes; i > 0; i--){
-    send_data = (data >> ((i-1)*8)); 
-    send_data = send_data & 0xFF;  
+  // send data
+  for (int i = num_bytes; i > 0; i--) {
+    send_data = (data >> ((i - 1) * 8));
+    send_data = send_data & 0xFF;
     SPI.transfer(send_data);
   }
 
   digitalWrite(CS, HIGH);
   SPI.endTransaction();
-
 }
-
 
 void setup() {
   // start serial communication
   Serial.begin(9600);
 
-  //Set the pinmode 
+  // Set the pinmode
   pinMode(CS, OUTPUT);
 
-  //gets ATMega read
-
+  // gets ATMega read
 }
 
-void loop() {
-  Serial.println("Hello");
-  
-}
+void loop() { Serial.println("Hello"); }
