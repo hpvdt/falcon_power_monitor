@@ -11,9 +11,6 @@ void setup() {
   // start serial communication
   Serial.begin(9600);
 
-  // Set the pinmode
-  pinMode(CS_PIN, OUTPUT);
-
   adc.setup();
 }
 

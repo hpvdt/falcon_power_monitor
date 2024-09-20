@@ -21,7 +21,7 @@ uint32_t MCP3465::read_reg_static(REG_MCP3465 reg, uint8_t num_bytes) {
     uint8_t command = 0;
     int regAddr = reg << 2;
 
-    command = (ADC_ADDRESS << 6) + regAddr + 1;
+    command = (ADC_ADDRESS << 6) + regAddr + MCP3465_COMM_STATIC_READ;
 
     _spi->beginTransaction(SPI_SETTINGS);
     digitalWrite(CS_PIN, LOW);
@@ -44,7 +44,7 @@ uint32_t MCP3465::read_reg_static(REG_MCP3465 reg, uint8_t num_bytes) {
 
 // Write to registers (always incremental)
 void MCP3465::write_reg(REG_MCP3465 start_reg, uint32_t data, int num_bytes) {
-    uint8_t command = (ADC_ADDRESS << 6) + (start_reg << 2) + 0b10;
+    uint8_t command = (ADC_ADDRESS << 6) + (start_reg << 2) + MCP3465_COMM_INCR_WRITE;
 
     _spi->beginTransaction(SPI_SETTINGS);
     digitalWrite(CS_PIN, LOW);
